@@ -13,3 +13,21 @@ process.env.NOW_URL
  * https://github.com/howdyai/botkit/blob/master/readme-slack.md#outgoing-webhooks-and-slash-commands
  *
  */
+
+//RTM API function
+
+var Botkit = require('botkit');
+var controller = Botkit.slackbot();
+var bot = controller.spawn({
+  token: process.env.SLACKBOT_TOKEN_KNUCKLES
+})
+bot.startRTM(function(error, whichBot, payload) {
+  if (error) {
+    throw new Error('Could not connect to Slack');
+  }
+});
+
+//First listening function
+controller.hears(['hello', 'hi', 'howzit'], ['mention', 'direct_mention', 'direct_message'], function(whichBot, message) {
+  whichBot.reply(message, 'Did you say my name?');
+});
