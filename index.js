@@ -31,3 +31,8 @@ bot.startRTM(function(error, whichBot, payload) {
 controller.hears(['hello', 'hi', 'howzit'], ['mention', 'direct_mention', 'direct_message'], function(whichBot, message) {
   whichBot.reply(message, 'Did you say my name?');
 });
+
+//identifier
+controller.hears(['who are you', 'who is this', 'identify yourself', 'what is your name', 'what are you called'], ['direct_message,direct_mention,mention'], function(whichbot, message) {
+    whichBot.reply(message, 'I am  ' + bot.identity.name + ', BOOM!');
+});
