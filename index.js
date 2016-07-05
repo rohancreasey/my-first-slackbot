@@ -89,3 +89,51 @@ if (weekday === (0 || 6) ) {
 });
 
 
+// array work
+
+var names = ["Rohan", "Jess", "Amy", "DanH", "Moises"];
+
+
+
+// bot close
+// useful for testing too!
+
+// start conversation! Use for chat
+//more than just reply
+
+// shutdown command
+controller.hears(['sleep','shutdown','close'],['direct_message','direct_mention','mention'], function(whichBot, message) {
+
+    // bot talks back
+    //function takes two parameters
+    whichBot.startConversation(message, function(err, conversation) {
+
+        // ask() bot question
+        // TO DO: add if/else to change reply depending on sleep/shutdown or close?
+        conversation.ask('Are you sure you want me to shutdown?', 
+        [
+            // array with two objects
+            {
+                // TO DO: understand utterances
+                pattern: whichBot.utterances.yes,
+                callback: function(response, conversation) {
+                    conversation.say('Ok, have fun on your own!');
+                    // TO DO: understand next function
+                    conversation.next();
+                    // shutdown timer
+                    setTimeout(function() {
+                        process.exit();
+                    }, 3000);
+                }
+            },
+        {
+            pattern: whichBot.utterances.no,
+            default: true,
+            callback: function(response, conversation) {
+                conversation.say('Oh good. It\'s lonely without you.');
+                conversation.next();
+            }
+        }
+        ]);
+    });
+});
