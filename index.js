@@ -78,20 +78,14 @@ var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturda
 // Dates are 4th/6th, 11th/13th, 18th/20th, 25th/27th
 
 
-if (weekday === (0 || 6 ))  {
+if (weekday === (0 || 6) ) {
         whichBot.reply(message, "Nope, it's the weekend, silly. Go and play.")
-    } else if (month == 7 && day == 4 || 6 || 11 || 13 || 18 || 20 || 25 || 27 ) {
+    } else if ((month === (7)) && ( day === ( 4 || 6 || 11 || 13 || 18 || 20 || 25 || 27 ))) {
         whichBot.reply(message, "Yep! Hope you've done your homework?")
     } else {
-        whichBot.reply(message, "No class today, it's" + weekday + ", but do some study!");
+        whichBot.reply(message, "No class today, it's" + " " + days[weekday] + ". But do some study!");
     }
 
 });
-
-
-// array work
-
-var names = ["Rohan", "Jess", "Amy", "DanH", "Moises"];
-
 
 
