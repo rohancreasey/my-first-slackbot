@@ -26,6 +26,8 @@ bot.startRTM(function(error, whichBot, payload) {
     throw new Error('Could not connect to Slack');
   }
 });
+
+// Test state: bot details
 var state = {
     botName: 'roh-bot',
     botHome: 'inside the machine'
@@ -33,14 +35,6 @@ var state = {
 
 //First listening function
 controller.hears(['hello', 'hi', 'howzit'], ['mention', 'direct_mention', 'direct_message'], function(whichBot, message) {
-
-    // bot.api.reactions.add({
-    //     timestamp: message.ts,
-    //     channel: message.channel,
-    //     name: 'rohan_robot',
-    // });
-
-
   whichBot.reply(message, 'Hello, right back at you!');
 });
 
@@ -70,24 +64,34 @@ controller.hears(['(.*) really', 'who is this really', 'really', 'what is your r
 // PSEUDO: if todays date == class date (use OR operators) then say yep, hope done homework. if todays date !== class date then say no.
 // maybe have funny weekender comments first in if statment?
 
-controller.hears(['do we have class today','class today','is there class'],['direct_message','direct_mention','mention'],function(whichBot,message) {
+controller.hears(['do we have class today','class today','is there class','class tonight'],['direct_message','direct_mention','mention'],function(whichBot,message) {
 
-var date = new Date();
+// define date variables
+var date = new Date();  //set today's date
 var month = date.getMonth() + 1; // months +1 gives 1-12 rather than 0-11
-var day = date.getDate();
-var weekday = date.getDay();
-var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+var day = date.getDate();   // get day of month from date
+var weekday = date.getDay();    // establish week day
+var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];    
 
 //Course dates:
 // Month July which is 6 normally, but +1 makes it 7
 // Dates are 4th/6th, 11th/13th, 18th/20th, 25th/27th
 
-if (days[weekday] == "Saturday" || "Sunday") {
+
+if (weekday === (0 || 6 ))  {
         whichBot.reply(message, "Nope, it's the weekend, silly. Go and play.")
     } else if (month == 7 && day == 4 || 6 || 11 || 13 || 18 || 20 || 25 || 27 ) {
-        whichBot.reply(message, "Yes indeed! Hope you've done your homework?")
+        whichBot.reply(message, "Yep! Hope you've done your homework?")
     } else {
         whichBot.reply(message, "No class today, it's" + weekday + ", but do some study!");
     }
 
 });
+
+
+// array work
+
+var names = ["Rohan", "Jess", "Amy", "DanH", "Moises"];
+
+
+

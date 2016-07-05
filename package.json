@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "botkit": "^0.2.2",
+    "cleverbot.io": "^1.0.4",
     "dotenv": "^2.0.0"
   }
 }
