@@ -29,9 +29,19 @@ bot.startRTM(function(error, whichBot, payload) {
 
 // Test state: bot details
 var state = {
-    botName: 'roh-bot',
-    botHome: 'inside the machine'
+    // botName: 'roh-bot',
+    // botHome: 'inside the machine',
+    users: []
 }
+
+// calls https://slack.com/api/users.list
+bot.api.users.list({'exclude_archived' : 1}, (err, res) => {  
+    //takes two arguments, err and response
+    //assigns response to users variable
+    users = res;
+    //print list
+    console.log(users);
+});
 
 //First listening function
 controller.hears(['hello', 'hi', 'howzit'], ['mention', 'direct_mention', 'direct_message'], function(whichBot, message) {
@@ -76,8 +86,6 @@ var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturda
 //Course dates:
 // Month July which is 6 normally, but +1 makes it 7
 // Dates are 4th/6th, 11th/13th, 18th/20th, 25th/27th
-
-
 if (weekday === (0 || 6) ) {
         whichBot.reply(message, "Nope, it's the weekend, silly. Go and play.")
     } else if ((month === (7)) && ( day === ( 4 || 6 || 11 || 13 || 18 || 20 || 25 || 27 ))) {
@@ -89,17 +97,13 @@ if (weekday === (0 || 6) ) {
 });
 
 
-// array work
-
-var names = ["Rohan", "Jess", "Amy", "DanH", "Moises"];
-
-
-
 // bot close
 // useful for testing too!
+// https://www.npmjs.com/package/@phated/botkit
 
-// start conversation! Use for chat
-//more than just reply
+// startConversation() - use where more than one reply may be sent
+// pass string or message object to function
+// message object can contain any fo chat.postMessage API fields
 
 // shutdown command
 controller.hears(['sleep','shutdown','close'],['direct_message','direct_mention','mention'], function(whichBot, message) {
@@ -108,18 +112,26 @@ controller.hears(['sleep','shutdown','close'],['direct_message','direct_mention'
     //function takes two parameters
     whichBot.startConversation(message, function(err, conversation) {
 
+        // conversation.say()
+        // conversation.ask() takes message, callback or array of callbacks and optionally capture_options
+        // 
+
         // ask() bot question
         // TO DO: add if/else to change reply depending on sleep/shutdown or close?
-        conversation.ask('Are you sure you want me to shutdown?', 
+        conversation.ask(
+            //standard messge object
+            'Are you sure you want me to shutdown?', 
+        // reference to conversation. Here, an array with two objects
         [
-            // array with two objects
             {
                 // TO DO: understand utterances
+                //utterances match specifics or phrases (yes, yeah, yup etc.)
                 pattern: whichBot.utterances.yes,
-                callback: function(response, conversation) {
-                    conversation.say('Ok, have fun on your own!');
+                callback: function(response, callback) {
+                    callback.say('Ok, have fun on your own!');
                     // TO DO: understand next function
-                    conversation.next();
+                    //convo.next() proceed to the next message in the conversation. This must be called at the end of each handler.
+                    callback.next();
                     // shutdown timer
                     setTimeout(function() {
                         process.exit();
@@ -129,11 +141,44 @@ controller.hears(['sleep','shutdown','close'],['direct_message','direct_mention'
         {
             pattern: whichBot.utterances.no,
             default: true,
-            callback: function(response, conversation) {
-                conversation.say('Oh good. It\'s lonely without you.');
-                conversation.next();
+            callback: function(response, callback) {
+                callback.say('Oh good. It\'s lonely without you.');
+                // .next() called, but no action taken.
+                callback.next();
             }
         }
         ]);
+    });
+});
+
+
+// Food
+
+controller.hears(['breakfast','lunch','dinner','food','eat','hungry'],['direct_message,direct_mention'],function(bot,message) {  
+    bot.reply(message,"You hungry?");
+});
+
+
+//Names
+
+// Ask bot my name
+
+// Get user list
+
+
+controller.hears(['Who am I', 'What is my name'], 'direct_message,direct_mention,mention', function(bot, message) {
+    // 
+    controller.storage.users.get(message.user, function(err, user) {
+        // if 
+        if (user && user.name) {
+            bot.reply(message, 'Your name is ' + user.name);
+        } else {
+        // else say I can't identify you
+              bot.startConversation(message, function(err, convo) {
+                if (!err) {
+                    convo.say('I do not know your name yet!');
+                }
+            });
+        }
     });
 });
