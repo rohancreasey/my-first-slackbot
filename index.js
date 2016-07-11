@@ -29,22 +29,45 @@ bot.startRTM(function(error, whichBot, payload) {
 
 // Test state: bot details
 var state = {
-    // botName: 'roh-bot',
+    botName: 'roh-bot',
     // botHome: 'inside the machine',
     users: []
 }
 
+// wrap user list in function
+controller.hears(['who are our users'], ['direct_message,direct_mention'], function(whichBot, message) {
+
 // calls https://slack.com/api/users.list
-bot.api.users.list({'exclude_archived' : 1}, (err, res) => {  
-    //takes two arguments, err and response
+    //takes two arguments, error and response
+bot.api.users.list({}, function(err, response) {
+    
     //assigns response to users variable
-    users = res;
+    users = response;
+    
     //print list
-    console.log(users);
+    // console.log(users);
+      var memberNames = []
+        response.members.forEach(function(member){
+            memberNames.push(member.name)
+        })
+        
+        //print memberNames
+        //console.log(memberNames);
+      
+      //reply with comma separated list
+      whichBot.reply(message, memberNames.join(', '));
+     
+    })
 });
 
+
+
+
+
+
+
 //First listening function
-controller.hears(['hello', 'hi', 'howzit'], ['mention', 'direct_mention', 'direct_message'], function(whichBot, message) {
+controller.hears(['hello', 'howzit'], ['mention', 'direct_mention', 'direct_message'], function(whichBot, message) {
   whichBot.reply(message, 'Hello, right back at you!');
 });
 
@@ -54,11 +77,11 @@ controller.hears(['hello', 'hi', 'howzit'], ['mention', 'direct_mention', 'direc
 // });
 
 controller.hears(['who are you', 'who is this', 'identify yourself', 'what is your name', 'what\'s your name', 'what are you called'],['direct_message','direct_mention','mention'],function(whichBot,message) {
-    whichBot.reply(message,"I am Spartacus.");
+    whichBot.reply(message, 'I am Spartacus.');
 });
 
-controller.hears(['(.*) really', 'who is this really', 'really', 'what is your real name', 'what\'s really your name', 'what are you really called'],['direct_message','direct_mention','mention'],function(whichBot,message) {
-    whichBot.reply(message,"Ok, I'm not Spartacus. He is. I am " + state.botName + ".");
+controller.hears(['really', 'what is your real name'],['direct_message','direct_mention','mention'],function(whichBot,message) {
+    whichBot.reply(message, 'Ok, I\'m not Spartacus. He is. I am, ' + state.botName + '.');
 });
 
 // reply to any incoming message
@@ -154,31 +177,109 @@ controller.hears(['sleep','shutdown','close'],['direct_message','direct_mention'
 
 // Food
 
-controller.hears(['breakfast','lunch','dinner','food','eat','hungry'],['direct_message,direct_mention'],function(bot,message) {  
-    bot.reply(message,"You hungry?");
+controller.hears(['breakfast','lunch','dinner','food','eat','hungry'],['direct_message,direct_mention'],function(whichBot,message) {  
+    whichBot.reply(message,"You hungry?");
 });
 
 
 //Names
-
 // Ask bot my name
-
 // Get user list
+// Not working yet
+
+// controller.hears(['Who am I', 'What is my name'], 'direct_message,direct_mention,mention', function(bot, message) {
+//     // 
+//     controller.storage.users.get(message.user, function(err, user) {
+//         // if 
+//         if (user && user.name) {
+//             bot.reply(message, 'Your name is ' + user.name);
+//         } else {
+//         // else say I can't identify you
+//               bot.startConversation(message, function(err, convo) {
+//                 if (!err) {
+//                     convo.say('I do not know your name yet!');
+//                 }
+//             });
+//         }
+//     });
+// });
 
 
-controller.hears(['Who am I', 'What is my name'], 'direct_message,direct_mention,mention', function(bot, message) {
-    // 
-    controller.storage.users.get(message.user, function(err, user) {
-        // if 
-        if (user && user.name) {
-            bot.reply(message, 'Your name is ' + user.name);
-        } else {
-        // else say I can't identify you
-              bot.startConversation(message, function(err, convo) {
-                if (!err) {
-                    convo.say('I do not know your name yet!');
-                }
-            });
-        }
-    });
-});
+// Array use
+// bot to check for all users who are... something
+
+// users [...
+//      { id: 'U124SQ6UA',
+//        team_id: 'T0ZT9QWKU',
+//        name: 'rohan',
+//        deleted: false,
+//        status: null,
+//        color: 'e0a729',
+//        real_name: 'Rohan Creasey',
+//        tz: 'Australia/Canberra',
+//        tz_label: 'Australian Eastern Standard Time',
+//        tz_offset: 36000,
+//        profile: [Object],
+//        is_admin: false,
+//        is_owner: false,
+//        is_primary_owner: false,
+//        is_restricted: false,
+//        is_ultra_restricted: false,
+//        is_bot: false 
+//     }
+//      ...]
+
+// function filterByName(obj) {
+//     if ('name' in obj && typeof(obj.name) === 'string' && !isNaN(obj.name)) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// };
+
+// function filterByName(obj) {
+// state.users[]
+//     var memberNames = []
+//     response.members.forEach(function(member){
+//         memberNames.push(member.name)
+//         console.log(memberNames);
+//         whichBot
+//     });
+    
+// var nameList = state.users.filter(filterByName);
+
+// console.log('List of names\n', nameList);
+
+
+
+// controller.hears(['Which users have (.*) in their name?'],['direct_message,direct_mention'],function(whichBot,message) {
+//     var memberNames = [];
+//         response.state.users.forEach(function(user) {
+//             memberNames.push(member.name)
+//     })
+//         console.log(memberNames);
+//         whichBot.reply(message, memberNames.join(', '));
+
+//     });
+    
+controller.hears(['who goes there'], ['direct_message,direct_mention'], function(whichBot, message) {
+//     bot.api.users.list({},function(err,response) {
+//       var memberNames = []
+//       response.members.forEach(function(member){
+//         memberNames.push(member.name)
+//       })
+//       console.log(memberNames)
+      whichBot.reply(message, memberNames.join(', '));
+//     })
+});    
+
+//     var doorType = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (open the (.*) doors).
+
+//     if (doorType === 'pod bay') {
+//         return bot.reply(message, 'I\'m sorry, Dave. I\'m afraid I can\'t do that.');
+//         }
+//         return bot.reply(message, 'Okay');
+
+
+// });
+//
