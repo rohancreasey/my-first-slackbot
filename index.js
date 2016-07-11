@@ -72,14 +72,15 @@ bot.api.users.list({}, function(err, response) {
 
     var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (Is (.*) in the group).
 
-    if (wildcardMatch == 'rohan') {
-        return whichBot.reply(message, 'if');
+    if (users.contains(wildCard)) {
+        return whichBot.reply(message, 'Yes, ' + wildcardMatch + ' ' + 'is in the group.');
     } else {
-        return whichBot.reply(message, 'else');
-    };
+        return whichBot.reply(message, 'Nope, they\'re not in the group');
+    }
      
     })
 });
+
 
 
 // // USE CONDITIONAL & ARRAY FILTER ON USER LIST
