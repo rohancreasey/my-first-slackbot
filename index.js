@@ -34,6 +34,8 @@ var state = {
     users: []
 }
 
+
+// GET USER NAMES
 // wrap user list in function
 controller.hears(['who are our users'], ['direct_message,direct_mention'], function(whichBot, message) {
 
@@ -61,8 +63,68 @@ bot.api.users.list({}, function(err, response) {
 });
 
 
+// USE CONDITIONAL & ARRAY FILTER ON USER LIST
+controller.hears(['who has a (.*) in their name?'], ['direct_message,direct_mention'], function(whichBot, message) {
+
+// calling api again - maybe break out later to call once for page upfront
+bot.api.users.list({}, function(err, response) {   
+    users = response;
+
+var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (who has a (.*) in their name?).
+
+if (wildcardMatch == 'rohan') {
+    return whichBot.reply(message, 'if');
+} else {
+    return whichBot.reply(message, 'else');
+};
+
+// var newArray = users.filter(callback)
+    
+//       var memberNames = []
+//         response.members.forEach(function(member){
+//             memberNames.push(member.name)
+//         })
+        
+//         //print memberNames
+//         //console.log(memberNames);
+      
+//       //reply with comma separated list
+//       whichBot.reply(message, memberNames.join(', '));
+     
+    })
+});
 
 
+// // USE CONDITIONAL & ARRAY FILTER ON USER LIST
+// controller.hears(['who has a (.*) in their name?'], ['direct_message,direct_mention'], function(whichBot, message) {
+
+// // calling api again - maybe break out later to call once for page upfront
+// bot.api.users.list({}, function(err, response) {   
+//     users = response;
+
+// var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (who has a (.*) in their name?).
+
+// if (wildcardMatch == 'rohan') {
+//     return whichBot.reply(message, 'if');
+// } else {
+//     return whichBot.reply(message, 'else');
+// };
+
+// // var newArray = users.filter(callback)
+    
+// //       var memberNames = []
+// //         response.members.forEach(function(member){
+// //             memberNames.push(member.name)
+// //         })
+        
+// //         //print memberNames
+// //         //console.log(memberNames);
+      
+// //       //reply with comma separated list
+// //       whichBot.reply(message, memberNames.join(', '));
+     
+//     })
+// });
 
 
 
