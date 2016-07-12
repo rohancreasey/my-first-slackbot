@@ -32,7 +32,7 @@ var state = {
     botName: 'roh-bot',
     // botHome: 'inside the machine',
     users: []
-}
+};
 
 
 // GET USER NAMES
@@ -63,40 +63,48 @@ bot.api.users.list({}, function(err, response) {
 });
 
 
+
+    
+
+
+// var philosophers = "Aquinas, Maimonedes, and Avicenna";
+// var me = "Joshua";
+
+// function printPhilosopherStatus (person) {
+//     if (philosophers.contains(person)) {
+//         console.log(person + " is a philosopher.");
+//     } else {
+//         console.log(person + " is NOT a philosopher.");
+//     }
+// }
+
+// // Outputs: "Joshua is NOT a philosopher."
+// printPhilosopherStatus(me);
+
 // USE CONDITIONAL & ARRAY FILTER ON USER LIST
-controller.hears(['Is (.*) in the group?'], ['direct_message,direct_mention'], function(whichBot, message) {
-
-// calling api again - maybe break out later to call once for page upfront
-bot.api.users.list({}, function(err, response) {   
-    users = response;
-
-    var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (Is (.*) in the group).
-
-    if (users.contains(wildCard)) {
-        return whichBot.reply(message, 'Yes, ' + wildcardMatch + ' ' + 'is in the group.');
-    } else {
-        return whichBot.reply(message, 'Nope, they\'re not in the group');
-    }
-     
-    })
-});
-
-
-
-// // USE CONDITIONAL & ARRAY FILTER ON USER LIST
 // controller.hears(['who has a (.*) in their name?'], ['direct_message,direct_mention'], function(whichBot, message) {
 
 // // calling api again - maybe break out later to call once for page upfront
 // bot.api.users.list({}, function(err, response) {   
 //     users = response;
 
-// var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (who has a (.*) in their name?).
+//     var wildcardMatch = message.match[1];
 
-// if (wildcardMatch == 'rohan') {
-//     return whichBot.reply(message, 'if');
-// } else {
-//     return whichBot.reply(message, 'else');
-// };
+//     for (i = 0; i < users.length; i++) {
+//         if (input.indexOf(users[i].name) == wildcardMatch) {
+//             console.log(users[i].Element);
+       
+//         }
+//     }
+
+
+// // var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (who has a (.*) in their name?).
+
+// // if (wildcardMatch == 'rohan') {
+// //     return whichBot.reply(message, 'if');
+// // } else {
+// //     return whichBot.reply(message, 'else');
+// // };
 
 // // var newArray = users.filter(callback)
     
@@ -113,6 +121,131 @@ bot.api.users.list({}, function(err, response) {
      
 //     })
 // });
+
+// USE CONDITIONAL & ARRAY FILTER ON USER LIST
+// controller.hears(['Is (.*) in the group?'], ['direct_message,direct_mention'], function(whichBot, message) {
+
+// // calling api again - maybe break out later to call once for page upfront
+// bot.api.users.list({}, function(err, response) {   
+//     users = response;
+
+//     var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (Is (.*) in the group).
+
+//     function isInGroup(person) {
+//         if (state.users.name.contains(wildcardMatch)) {
+//             return whichBot.reply(message, 'Yes, ' + wildcardMatch + ' ' + 'is in the group.');
+//         } else {
+//             return whichBot.reply(message, 'Nope, they\'re not in the group');
+//         }
+     
+//     };
+
+//     })
+// });
+
+
+// USE CONDITIONAL & ARRAY FILTER ON USER LIST
+// NEEDS WORK
+controller.hears(['is (.*) at the party?'], ['direct_message,direct_mention'], function(whichBot, message) {
+
+ //1       var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (who has a (.*) in their name?).
+
+    // calling api again - maybe break out later to call once for page upfront
+    bot.api.users.list({}, function(err, response) {   
+        users2 = response;
+
+var wildcardMatch = message.match[1];
+var partyGoer;
+console.log(users2);
+console.log('Wildcard is ' + wildcardMatch);
+
+for (var i = 0; i < users2.length; i++) {
+if (users2[i].name == wildcardMatch) {
+    	partyGoer = users2[i].name;
+        return whichBot.reply(message, 'Yes, ' + partyGoer + ' ' + 'is at the party.');
+        } else {
+            return whichBot.reply(message, 'Nope, they\'re not here.');
+        }
+    }
+
+//2
+        // if (users.name == wildcardMatch) {
+        //     return whichBot.reply(message, 'Yes, ' + wildcardMatch + ' ' + 'is at the party.');
+        // } else {
+        //     return whichBot.reply(message, 'Nope, they\'re not here.');
+        // };
+
+     
+    })
+});
+
+//3
+// var wildcardMatch = message.match[1];
+// console.log(wildcardMatch);
+// for (var i = 0; i < users2.length; i++) {
+// if (users2.name[i] == wildcardMatch) {
+//     return whichBot.reply(message, 'Yes, ' + wildcardMatch + ' ' + 'is at the party.');
+//         } else {
+//             return whichBot.reply(message, 'Nope, they\'re not here.');
+//         }
+//     }
+// var name; // this is just cleaner than to define it in the loop
+// for (var i = 0; i < story.users.length; i++) {
+//     if (story.users[i].id._id == req.headers.id) {
+//         name = story.users[i].id.name;
+//         break; // don't loop over the other elements
+//     }
+// };
+// for (var i = 0; i < story.users.length; i++) {
+//     if (story.users[i].id._id !== req.headers.id) {
+//         push.apns(story.users[i].id._id, name + " started a new story");
+//     }
+// }
+
+
+
+
+// ARRAY 2
+// NOT WORKING
+// controller.hears(['moo (.*) moo?'], ['direct_message,direct_mention'], function(whichBot, message) {
+
+// // calling api again - maybe break out later to call once for page upfront
+// bot.api.users.list({}, function(err, response) {   
+//     users = response;
+
+//     function isInUserGroup(user, list) {
+//         return user.indexOf(list) >= 0;
+//     }
+
+//     var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (Is (.*) in the group).
+
+//     function searchGroup(person) {
+//         if (isInUserGroup(state.users.name, person)) {
+//             return whichBot.reply(message, 'Yes, ' + wildcardMatch + ' ' + 'is in the group.');
+//         } else {
+//             return whichBot.reply(message, 'Nope, they\'re not in the group');
+//         }
+     
+//     }
+//    searchGroup();
+//     })
+// });
+
+// function aContainsB (a, b) {
+//     return a.indexOf(b) >= 0;
+// }
+
+// var philosophers = "Aquinas, Maimonedes, and Avicenna";
+// var me = "Joshua";
+
+// function printPhilosopherStatus (person) {
+//     if (aContainsB(philosophers, person)) {
+//         console.log(person + " is a philosopher.");
+//     } else {
+//         console.log(person + " is NOT a philosopher.");
+//     }
+// }
+
 
 
 
@@ -312,16 +445,16 @@ controller.hears(['breakfast','lunch','dinner','food','eat','hungry'],['direct_m
 
 //     });
     
-controller.hears(['who goes there'], ['direct_message,direct_mention'], function(whichBot, message) {
-//     bot.api.users.list({},function(err,response) {
-//       var memberNames = []
-//       response.members.forEach(function(member){
-//         memberNames.push(member.name)
-//       })
-//       console.log(memberNames)
-      whichBot.reply(message, memberNames.join(', '));
-//     })
-});    
+// controller.hears(['who goes there'], ['direct_message,direct_mention'], function(whichBot, message) {
+// //     bot.api.users.list({},function(err,response) {
+// //       var memberNames = []
+// //       response.members.forEach(function(member){
+// //         memberNames.push(member.name)
+// //       })
+// //       console.log(memberNames)
+//       whichBot.reply(message, memberNames.join(', '));
+// //     })
+// });    
 
 //     var doorType = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (open the (.*) doors).
 
