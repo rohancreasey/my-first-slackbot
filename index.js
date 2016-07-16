@@ -188,25 +188,94 @@ bot.api.users.list({}, function(err, response) {
 // NEEDS WORK
 controller.hears(['is (.*) at the party?'], ['direct_message,direct_mention'], function(whichBot, message) {
 
- //1       var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (who has a (.*) in their name?).
+//1 var wildcardMatch = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (who has a (.*) in their name?).
 
-    // calling api again - maybe break out later to call once for page upfront
-    bot.api.users.list({}, function(err, response) {   
-        users2 = response;
+// calling api again - maybe break out later to call once for page upfront
+	bot.api.users.list({}, function(err, response) {   
+	    users2 = response;
 
-var wildcardMatch = message.match[1];
-var partyGoer;
-console.log(users2);
-console.log('Wildcard is ' + wildcardMatch);
+	    var wildcardMatch = message.match[1];
+	    var partyGoer;
+	    console.log(users2);
+	    console.log('Wildcard is ' + wildcardMatch);
 
-for (var i = 0; i < users2.length; i++) {
-if (users2[i].name == wildcardMatch) {
-    	partyGoer = users2[i].name;
-        return whichBot.reply(message, 'Yes, ' + partyGoer + ' ' + 'is at the party.');
-        } else {
-            return whichBot.reply(message, 'Nope, they\'re not here.');
+        // var found = false;
+        for (var i = 0; i < users2.length; i++) {
+            if (users2[i].name == wildcardMatch ) {
+	            // found = true;
+	            // return
+	            console.log('if is true');
+            }
         }
-    }
+	        // return
+            console.log('if is false');
+	})
+});
+
+// var found = false;
+// for(var i = 0; i < vendors.length; i++) {
+//     if (vendors[i].Name == 'Magenic') {
+//         found = true;
+//         break;
+//     }
+// }
+ 
+            // if (users2.name == wildcardMatch') {
+            //      partyGoer = users2.name;
+	        //     console.log(partyGoer);
+	        //      whichBot.reply(message, 'Yes, ' + partyGoer + ' ' + 'is at the party.');
+	        // } 
+	        //  whichBot.reply(message, 'Nope, they\'re not here.');
+            // }
+
+
+
+    //    var obj = { first: "John", last: "Doe" };
+    // // Visit non-inherited enumerable keys
+    // Object.keys(users2).forEach(function(key) {
+    //     console.log(key);
+    // });
+
+
+
+
+        // for (var i = 0; i < users2.length; i++) {
+        //     if (users2[i].name == wildcardMatch) {
+        //         var partyGoer = users2[i].name;
+        //         console.log(partyGoer);
+        //         return whichBot.reply(message, 'Yes, ' + partyGoer + ' ' + 'is at the party.');
+        //     } 
+        //         return whichBot.reply(message, 'Nope, they\'re not here.');
+            
+        // }
+
+        
+// for( ... ) {
+//   if ( /* something truthy */ ) {
+//     return
+//   }
+// }
+// /* didn't find anything truthy, so return the 'falsey' result here */
+// return 
+
+
+
+    // var keys = Object.keys(users2).name;
+    // // var keys = [];
+    // for (var key in users2) {      
+    //     if (users2.hasOwnProperty(key)) keys.push(key);
+    //     console.log(keys)
+    // }
+
+        // for (var i = 0; i < users2.length; i++) {
+        //     if (users2[i].name == wildcardMatch) {
+        //         var partyGoer = users2[i].name;
+        //         console.log(partyGoer);
+        //         return whichBot.reply(message, 'Yes, ' + partyGoer + ' ' + 'is at the party.');
+        //     } else {
+        //         return whichBot.reply(message, 'Nope, they\'re not here.');
+        //     }
+        // }
 
 //2
         // if (users.name == wildcardMatch) {
@@ -216,8 +285,7 @@ if (users2[i].name == wildcardMatch) {
         // };
 
      
-    })
-});
+
 
 
 
