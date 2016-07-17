@@ -99,7 +99,7 @@ if (weekday === (0 || 6) ) {
 // message object can contain any fo chat.postMessage API fields
 
 // shutdown command
-controller.hears(['sleep','shutdown','close'],['direct_message','direct_mention','mention'], function(whichBot, message) {
+controller.hears(['sleep','shutdown','sd', 'close'],['direct_message','direct_mention','mention'], function(whichBot, message) {
 
     // bot talks back
     //function takes two parameters
@@ -192,7 +192,7 @@ controller.hears(['is (.*) at the party?'], ['direct_message,direct_mention'], f
 
 // calling api again - maybe break out later to call once for page upfront
 	bot.api.users.list({}, function(err, response) {   
-	    users2 = response;
+	    users2 = response.members;
 
 	    var wildcardMatch = message.match[1];
 	    var partyGoer;
@@ -203,12 +203,11 @@ controller.hears(['is (.*) at the party?'], ['direct_message,direct_mention'], f
         for (var i = 0; i < users2.length; i++) {
             if (users2[i].name == wildcardMatch ) {
 	            // found = true;
-	            // return
-	            console.log('if is true');
+	            // return console.log('if is true');
+                return whichBot.reply(message, 'Yes, ' + wildcardMatch + ' ' + 'is at the party.');
             }
         }
-	        // return
-            console.log('if is false');
+	        return whichBot.reply(message, 'Nope, they\'re not here.');
 	})
 });
 
